@@ -72,13 +72,15 @@ function email(id)
 function str(id)
 {
 	var ele = document.getElementById(id);
-	var c = ele.hasAttribute("c") ? ele.getAttribute("c") : "";
+	var c = ele.getAttribute("c") == null ? "" : ele.getAttribute("c");
 	if(ele.value.length == 0)
 		return c + " cannot be blank";
-	if(ele.hasAttribute("mi") && ele.value.length < ele.getAttribute("mi"))
-		return "min "+ele.getAttribute("mi") + " chars required";
-	if(ele.hasAttribute("mx") && ele.value.length > ele.getAttribute("mx"))
-		return "cannot exceed " + ele.getAttribute("mx") + " chars";
+	var min =  ele.getAttribute("mi") == null ? "" : ele.getAttribute("mi");
+	if(min!="" && ele.value.length < min)
+		return "min "+ min + " chars required";
+	var max = ele.getAttribute("mx") == null ? "" : ele.getAttribute("mx");
+	if(max!="" &&  ele.value.length > max)
+		return "cannot exceed " + max + " chars";
 	return true;
 }
 
@@ -100,7 +102,7 @@ function file(id)
 function showError(ele, response)
 {
 	hideError(ele);
-	var errorspan = document.createElement("SPAN");
+	var errorspan = document.createElement("DIV");
 	errorspan.innerHTML = response;
 	errorspan.className = "error";
 	errorspan.style.color = "red";
